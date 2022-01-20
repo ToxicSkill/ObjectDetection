@@ -12,7 +12,7 @@ namespace ObjectDetection.Processing
         private readonly double[,] _morphologyKernel =
         {
             { 1, 1, 1 },
-            { 1, 2, 1 },
+            { 1, 1, 1 },
             { 1, 1, 1 }
         };
 
@@ -34,18 +34,18 @@ namespace ObjectDetection.Processing
             using var diff = Preprocess.GetDiffrence(Frames);
             if (!IsNullOrEmpty(diff))
             {
-                Cv2.MedianBlur(diff, diff, FirstBlurringPower);
-                Cv2.Laplacian(diff, diff, MatType.CV_8UC1, delta: 1);
-                var sharpness = diff.Mean()[0];
-                Cv2.MorphologyEx(diff, diff, MorphTypes.Close, null);
-                Cv2.MedianBlur(diff, diff, SecondBlurringPower);
+                //Cv2.GaussianBlur(diff, diff, new Size(7, 7), 1);
+                //Cv2.Canny(diff, diff, 0, 20);
+                //Cv2.Dilate(diff, diff, InputArray.Create(_morphologyKernel));
+                //Cv2.MedianBlur(diff, diff, FirstBlurringPower);
+                //Cv2.Laplacian(diff, diff, MatType.CV_8UC1, delta: 1);
+                //Cv2.MorphologyEx(diff, diff, MorphTypes.Close, null);
+                //Cv2.MedianBlur(diff, diff, SecondBlurringPower);
+                //Cv2.Threshold(diff, diff, 0, 255, ThresholdTypes.Otsu | ThresholdTypes.Binary);
+                //Cv2.MorphologyEx(diff, diff, MorphTypes.Dilate, InputArray.Create(_morphologyKernel));
+                //Cv2.FindContours(diff, out Point[][] contours, out _, RetrievalModes.CComp, ContourApproximationModes.ApproxTC89L1);
 
-
-                Cv2.Threshold(diff, diff, 0, 255, ThresholdTypes.Otsu | ThresholdTypes.Binary);
-                Cv2.MorphologyEx(diff, diff, MorphTypes.Dilate, InputArray.Create(_morphologyKernel));
-                Cv2.FindContours(diff, out Point[][] contours, out _, RetrievalModes.CComp, ContourApproximationModes.ApproxTC89L1);
-
-                context.Rectangles = contours.Select(c => Cv2.BoundingRect(c)).ToArray();
+                //context.Rectangles = contours.Select(c => Cv2.BoundingRect(c)).ToArray();
             }
         }
     }
